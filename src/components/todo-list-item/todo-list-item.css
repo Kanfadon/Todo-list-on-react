@@ -1,0 +1,10 @@
+.btn-width {
+    width: 45%;
+}
+
+@media (max-width: 768px) {
+    .btn-width {
+        width: 45%;
+        margin-left: 8%;
+    }
+}
