@@ -29,11 +29,11 @@ export default class App extends Component {
     onImportant(id) {
         this.setState(({itemList}) => {
             const index = itemList.findIndex(elem => elem.id === id);
-            const item = itemList.find(elem => elem.id === id);
+            const newItem = {...itemList[index], important: !itemList[index].important};
 
             return {itemList: [
                 ...itemList.slice(0, index),
-                {...item, important: !item.important},
+                newItem,
                 ...itemList.slice(index+1)]
             };
         })
@@ -61,11 +61,11 @@ export default class App extends Component {
     onComplete(id) {
         this.setState(({itemList}) => {
             const index = itemList.findIndex(elem => elem.id === id);
-            const item = itemList.find(elem => elem.id === id);
+            const newItem = {...itemList[index], complete: !itemList[index].complete};
 
             return {itemList: [
                 ...itemList.slice(0, index),
-                {...item, complete: !item.complete},
+                newItem,
                 ...itemList.slice(index+1)]
             };
         })
