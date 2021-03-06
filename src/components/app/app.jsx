@@ -10,8 +10,9 @@ export default class App extends Component {
         
         this.state = {
             startId: 10,
+            filter: '',
             itemList: [
-                {id: 1, text: 'cупер длиииииииииииииииииииииииииинное и ваааааааааааажное дело', important: true, complete: false},
+                {id: 1, text: 'супер длииииииииииииииииинннноееееее и вааааааажноееееееееее дело', important: true, complete: false},
                 {id: 2, text: 'купить хлеб', important: false, complete: true},
                 {id: 3, text: 'прочитать книгу', important: false, complete: false},
                 {id: 4, text: 'вынести мусор', important: false, complete: false},
@@ -24,6 +25,7 @@ export default class App extends Component {
         this.onDelete = this.onDelete.bind(this);
         this.addItem = this.addItem.bind(this);
         this.onComplete = this.onComplete.bind(this);
+        this.onFilterChange = this.onFilterChange.bind(this);
     }
 
     onImportant(id) {
@@ -58,6 +60,19 @@ export default class App extends Component {
         })
     }
 
+    onFilterChange(newFilter) {
+        this.setState({filter: newFilter})
+    }
+
+    onFilter() {
+        if (this.state.filter) {
+            const newArray = this.state.itemList.filter(elem => elem.text.toLowerCase().includes(this.state.filter));
+            return newArray;
+        } else {
+            return this.state.itemList;
+        }
+    }
+
     onComplete(id) {
         this.setState(({itemList}) => {
             const index = itemList.findIndex(elem => elem.id === id);
@@ -73,8 +88,12 @@ export default class App extends Component {
 
     render() {
         const { itemList } = this.state;
-        const itemCount = itemList.length;
-        const completeCount = itemList.filter(elem => elem.complete).length;
+        const filtered = this.onFilter();
+
+        const itemCount = filtered.length;
+        const completeCount = filtered.filter(elem => elem.complete).length;
+
+        
 
         return (
 
@@ -85,11 +104,11 @@ export default class App extends Component {
                     todos={itemCount}
                     done={completeCount}
                     />
-                    <SearchPanel />
+                    <SearchPanel onFilterChange={this.onFilterChange} />
                     <TodoList 
                     onImportant={this.onImportant}
                     onComplete={this.onComplete}
-                    itemList={itemList} 
+                    itemList={filtered}
                     onDelete={this.onDelete}
                     />
                     <AddPanel addItem={this.addItem}/>
