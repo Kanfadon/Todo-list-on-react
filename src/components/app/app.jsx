@@ -74,7 +74,7 @@ export default class App extends Component {
     render() {
         const { itemList } = this.state;
         const itemCount = itemList.length;
-        const completeCount = itemList.filter(elem => elem.complite).length;
+        const completeCount = itemList.filter(elem => elem.complete).length;
 
         return (
 
