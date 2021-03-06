@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-const ItemStatusFilter = ({onFilterChange}) => {
-    const [filter, setFilter] = useState('');
+const ItemStatusFilter = ({ onFilterChange }) => {
 
     return (
         <form className="form-group col-sm-6">
             <div>
-                <input 
-                placeholder="поиск"
-                className="form-control" 
-                type="text"
-                onChange={e => onFilterChange(e.target.value)}
+                <input
+                    placeholder="поиск"
+                    className="form-control"
+                    type="text"
+                    onChange={e => onFilterChange(e.target.value)}
                 />
             </div>
         </form>
