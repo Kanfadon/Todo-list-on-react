@@ -53,7 +53,7 @@ export default class App extends Component {
         this.setState(({startId, itemList}) => {
             return {startId: ++startId, itemList: [
                 ...itemList,
-                {id: ++startId, text: 'купить хлеб', important: false, complite:false}
+                {id: ++startId, text: text, important: false, complite:false}
             ]}
         })
     }
