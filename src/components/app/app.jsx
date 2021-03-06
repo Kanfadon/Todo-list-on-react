@@ -1,24 +1,101 @@
-import React from 'react';
-import AppHeader from './../app-header'
-import SearchPanel from './../search-panel'
-import TodoList from './../todo-list'
+import React, { Component } from 'react';
+import AppHeader from './../app-header';
+import SearchPanel from './../search-panel';
+import TodoList from './../todo-list';
+import AddPanel from './../add-panel';
 
-const App = () => {
-    return (
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            startId: 10,
+            itemList: [
+                {id: 1, text: 'cупер длиииииииииииииииииииииииииинное и ваааааааааааажное дело', important: true, complete: false},
+                {id: 2, text: 'купить хлеб', important: false, complete: true},
+                {id: 3, text: 'прочитать книгу', important: false, complete: false},
+                {id: 4, text: 'вынести мусор', important: false, complete: false},
+                {id: 5, text: 'полгладить кота', important: false, complete: false},
+                {id: 6, text: 'постирать вещи', important: false, complete: false}
+            ]
+        }
+
+        this.onImportant = this.onImportant.bind(this);
+        this.onDelete = this.onDelete.bind(this);
+        this.addItem = this.addItem.bind(this);
+        this.onComplete = this.onComplete.bind(this);
+    }
+
+    onImportant(id) {
+        this.setState(({itemList}) => {
+            const index = itemList.findIndex(elem => elem.id === id);
+            const item = itemList.find(elem => elem.id === id);
+
+            return {itemList: [
+                ...itemList.slice(0, index),
+                {...item, important: !item.important},
+                ...itemList.slice(index+1)]
+            };
+        })
+    }
+
+    onDelete(id) {
+        this.setState(({itemList}) => {
+            const index = itemList.findIndex(elem => elem.id === id);
+            const before = itemList.slice(0, index);
+            const after = itemList.slice (index+1, itemList.length);
+
+            return {itemList: [...before, ...after]};
+        })
+    }
+
+    addItem(text) {
+        this.setState(({startId, itemList}) => {
+            return {startId: ++startId, itemList: [
+                ...itemList,
+                {id: ++startId, text: 'купить хлеб', important: false, complite:false}
+            ]}
+        })
+    }
+
+    onComplete(id) {
+        this.setState(({itemList}) => {
+            const index = itemList.findIndex(elem => elem.id === id);
+            const item = itemList.find(elem => elem.id === id);
+
+            return {itemList: [
+                ...itemList.slice(0, index),
+                {...item, complete: !item.complete},
+                ...itemList.slice(index+1)]
+            };
+        })
+    }
+
+    render() {
+        const { itemList } = this.state;
+        const itemCount = itemList.length;
+        const completeCount = itemList.filter(elem => elem.complite).length;
+
+        return (
+
         <div className="container">
             <div className="row">
                 <div className="col-md-8 offset-md-2">
                     <AppHeader
-                    todos="3" 
-                    done="0" 
+                    todos={itemCount}
+                    done={completeCount}
                     />
                     <SearchPanel />
-                    <TodoList />
+                    <TodoList 
+                    onImportant={this.onImportant}
+                    onComplete={this.onComplete}
+                    itemList={itemList} 
+                    onDelete={this.onDelete}
+                    />
+                    <AddPanel addItem={this.addItem}/>
                 </div>
             </div>
-            
         </div>
-    )
+        )
+    }
 }
-
-export default App;
