@@ -13,8 +13,6 @@ export default class App extends Component {
             startId: 10,
             filter: '',
 
-            // #################################################
-            // TODO: реализовать хранение  через сервер
             itemList: [
                 { id: 1, text: 'супер длииииииииииииииииинннноееееее и вааааааажноееееееееее дело', important: true, complete: false },
                 { id: 2, text: 'купить хлеб', important: false, complete: true },
@@ -23,7 +21,6 @@ export default class App extends Component {
                 { id: 5, text: 'полгладить кота', important: false, complete: false },
                 { id: 6, text: 'постирать вещи', important: false, complete: false }
             ]
-            // #################################################
         }
 
         this.onImportant = this.onImportant.bind(this);
@@ -133,6 +130,7 @@ export default class App extends Component {
                             done={completeCount}
                         />
                         <SearchPanel
+                            currentCategory={this.state.category}
                             onFilterChange={this.onFilterChange}
                             selectCategory={this.selectCategory}
                         />
